@@ -20,22 +20,6 @@ else
     git -C "$FISH_DIR" pull --rebase
 fi
 
-# Remove fisher-managed files so fisher can reinstall them cleanly
-echo "Removing fisher-managed files before reinstall..."
-rm -f "$FISH_DIR/functions/fisher.fish"
-rm -f "$FISH_DIR/completions/fisher.fish"
-rm -f "$FISH_DIR/functions/_nvm_index_update.fish"
-rm -f "$FISH_DIR/functions/_nvm_list.fish"
-rm -f "$FISH_DIR/functions/_nvm_version_activate.fish"
-rm -f "$FISH_DIR/functions/_nvm_version_deactivate.fish"
-rm -f "$FISH_DIR/functions/nvm.fish"
-rm -f "$FISH_DIR/conf.d/nvm.fish"
-rm -f "$FISH_DIR/completions/nvm.fish"
-rm -f "$FISH_DIR/completions/asdf.fish"
-rm -f "$FISH_DIR/conf.d/homebrew-apple-silicon.fish"
-rm -f "$FISH_DIR/conf.d/github-copilot-cli.fish"
-rm -f "$FISH_DIR/conf.d/wakatime.fish"
-
 # Install fisher + plugins if fish is available
 if command -v fish >/dev/null 2>&1; then
     echo "Installing fisher and plugins..."

@@ -2,3 +2,15 @@ fish_variables
 *.copy
 *.pysave
 *-e
+
+# Fisher-managed files (installed from fish_plugins)
+functions/fisher.fish
+completions/fisher.fish
+functions/nvm.fish
+functions/_nvm_*.fish
+conf.d/nvm.fish
+completions/nvm.fish
+completions/asdf.fish
+conf.d/homebrew-apple-silicon.fish
+conf.d/github-copilot-cli.fish
+conf.d/wakatime.fish
