@@ -23,11 +23,31 @@ fi
 # Install fisher + plugins if fish is available
 if command -v fish >/dev/null 2>&1; then
     echo "Installing fisher and plugins..."
+    # Remove fisher-managed files so fisher can reinstall them cleanly
     fish -c '
-        if not functions -q fisher
-            curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
-            fisher install jorgebucaran/fisher
+        set fisher_managed \
+            functions/fisher.fish \
+            completions/fisher.fish \
+            functions/_nvm_index_update.fish \
+            functions/_nvm_list.fish \
+            functions/_nvm_version_activate.fish \
+            functions/_nvm_version_deactivate.fish \
+            functions/nvm.fish \
+            conf.d/nvm.fish \
+            completions/nvm.fish \
+            completions/asdf.fish \
+            conf.d/homebrew-apple-silicon.fish \
+            conf.d/github-copilot-cli.fish \
+            conf.d/wakatime.fish
+
+        for f in $fisher_managed
+            set -l path ~/.config/fish/$f
+            if test -f $path
+                rm $path
+            end
         end
+
+        curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
         fisher update
     '
     echo "Done! Restart your shell."
