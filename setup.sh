@@ -20,36 +20,26 @@ else
     git -C "$FISH_DIR" pull --rebase
 fi
 
+# Remove fisher-managed files so fisher can reinstall them cleanly
+echo "Removing fisher-managed files before reinstall..."
+rm -f "$FISH_DIR/functions/fisher.fish"
+rm -f "$FISH_DIR/completions/fisher.fish"
+rm -f "$FISH_DIR/functions/_nvm_index_update.fish"
+rm -f "$FISH_DIR/functions/_nvm_list.fish"
+rm -f "$FISH_DIR/functions/_nvm_version_activate.fish"
+rm -f "$FISH_DIR/functions/_nvm_version_deactivate.fish"
+rm -f "$FISH_DIR/functions/nvm.fish"
+rm -f "$FISH_DIR/conf.d/nvm.fish"
+rm -f "$FISH_DIR/completions/nvm.fish"
+rm -f "$FISH_DIR/completions/asdf.fish"
+rm -f "$FISH_DIR/conf.d/homebrew-apple-silicon.fish"
+rm -f "$FISH_DIR/conf.d/github-copilot-cli.fish"
+rm -f "$FISH_DIR/conf.d/wakatime.fish"
+
 # Install fisher + plugins if fish is available
 if command -v fish >/dev/null 2>&1; then
     echo "Installing fisher and plugins..."
-    # Remove fisher-managed files so fisher can reinstall them cleanly
-    fish -c '
-        set fisher_managed \
-            functions/fisher.fish \
-            completions/fisher.fish \
-            functions/_nvm_index_update.fish \
-            functions/_nvm_list.fish \
-            functions/_nvm_version_activate.fish \
-            functions/_nvm_version_deactivate.fish \
-            functions/nvm.fish \
-            conf.d/nvm.fish \
-            completions/nvm.fish \
-            completions/asdf.fish \
-            conf.d/homebrew-apple-silicon.fish \
-            conf.d/github-copilot-cli.fish \
-            conf.d/wakatime.fish
-
-        for f in $fisher_managed
-            set -l path ~/.config/fish/$f
-            if test -f $path
-                rm $path
-            end
-        end
-
-        curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
-        fisher update
-    '
+    fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; fisher update'
     echo "Done! Restart your shell."
 else
     echo "Fish not installed. Install fish first, then run: fisher update"
